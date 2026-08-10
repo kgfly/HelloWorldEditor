@@ -53,16 +53,25 @@ open HelloWorldEditor.app
 Needs X11/Wayland dev headers (Debian/Ubuntu):
 
 ```sh
-sudo apt-get install -y pkg-config libx11-dev libx11-xcb-dev libxkbcommon-dev \
-  libxkbcommon-x11-dev libgles2-mesa-dev libegl1-mesa-dev libffi-dev \
-  libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libxxf86vm-dev \
-  libxfixes-dev libvulkan-dev libwayland-dev libwayland-egl-backend-dev wayland-protocols
+sudo apt-get install -y --no-install-recommends \
+  pkg-config \
+  libx11-dev libx11-xcb-dev libxcursor-dev libxfixes-dev \
+  libxkbcommon-dev libxkbcommon-x11-dev \
+  libwayland-dev libwayland-egl-backend-dev \
+  libegl-dev libvulkan-dev
 
 go build -o helloworldeditor .
 ./helloworldeditor notes.txt
 ```
 
-Fedora: `sudo dnf install pkgconf-pkg-config libX11-devel libxkbcommon-x11-devel mesa-libGLES-devel mesa-libEGL-devel libXcursor-devel libXrandr-devel libXinerama-devel libXi-devel libXxf86vm-devel libXfixes-devel vulkan-loader-devel wayland-devel wayland-protocols-devel`
+Gio compiles both the X11 and Wayland backends and picks at runtime, which is
+why both sets of headers are needed. Build tags trim this: `-tags nowayland`
+(X11 only), `-tags nox11` (Wayland only), `-tags novulkan` (skip `libvulkan-dev`).
+
+Fedora: `sudo dnf install pkgconf-pkg-config libX11-devel libxcb-devel libXcursor-devel libXfixes-devel libxkbcommon-devel libxkbcommon-x11-devel wayland-devel mesa-libEGL-devel vulkan-loader-devel`
+
+See [`~/doc/build-run.md`](../../../doc/build-run.md) for per-distro lists,
+minimal per-backend package sets, and troubleshooting.
 
 ### Windows
 
