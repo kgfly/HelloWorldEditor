@@ -1,0 +1,17 @@
+# Build output
+/helloworldeditor
+/helloworldeditor.exe
+*.app/
+
+# Go
+*.test
+*.out
+
+# Editor / OS noise
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Secrets
+.env
